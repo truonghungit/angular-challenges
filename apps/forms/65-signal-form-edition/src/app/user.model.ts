@@ -5,3 +5,5 @@ export interface User {
   age: number;
   grade: number;
 }
+
+export type EditingUser = Omit<User, 'id'>;
