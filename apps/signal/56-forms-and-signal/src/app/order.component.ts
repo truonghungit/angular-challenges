@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
   input,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -59,6 +60,8 @@ export default class OrderComponent {
   });
 
   productId = input('1');
+  quantityInput = input(1, { alias: 'quantity' });
+
   price = computed(
     () => products.find((p) => p.id === this.productId())?.price ?? 0,
   );
@@ -68,4 +71,14 @@ export default class OrderComponent {
   totalWithoutVat = computed(() => Number(this.price()) * this.quantity());
   vat = computed(() => this.totalWithoutVat() * 0.21);
   total = computed(() => this.totalWithoutVat() + this.vat());
+
+  constructor() {
+    effect(() => {
+      const quantity = this.quantityInput();
+
+      if (quantity) {
+        this.form.patchValue({ quantity });
+      }
+    });
+  }
 }
