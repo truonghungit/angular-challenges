@@ -31,7 +31,7 @@ export const reader: User = {
 };
 
 export const readerAndWriter: User = {
-  name: 'reader',
+  name: 'reader and writer',
   isAdmin: false,
   roles: ['READER', 'WRITER'],
 };
@@ -43,7 +43,19 @@ export const client: User = {
 };
 
 export const everyone: User = {
-  name: 'client',
+  name: 'everyone',
   isAdmin: false,
   roles: [],
 };
+
+export const USERS_MAP: Record<string, User> = {
+  admin,
+  manager,
+  reader,
+  writer,
+  readerAndWriter,
+  client,
+  everyone,
+};
+
+export type UserType = keyof typeof USERS_MAP;
