@@ -1,21 +1,16 @@
-import { CanActivate, Router, UrlTree } from '@angular/router';
+import { CanActivateFn, Router } from '@angular/router';
 
 import { AuthorizationService } from '@angular-challenges/module-to-standalone/core/service';
-import { inject, Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { inject } from '@angular/core';
+import { map } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class IsAuthorizedGuard implements CanActivate {
-  private authorizationService = inject(AuthorizationService);
-  private router = inject(Router);
+export const isAuthorizedGuard: CanActivateFn = () => {
+  const authorizationService = inject(AuthorizationService);
+  const router = inject(Router);
 
-  canActivate(): Observable<boolean | UrlTree> {
-    return this.authorizationService.isAuthorized$.pipe(
-      map((isAuthorized) =>
-        isAuthorized ? true : this.router.createUrlTree(['forbidden']),
-      ),
-    );
-  }
-}
+  return authorizationService.isAuthorized$.pipe(
+    map((isAuthorized) => {
+      return isAuthorized ? true : router.createUrlTree(['forbidden']);
+    }),
+  );
+};
