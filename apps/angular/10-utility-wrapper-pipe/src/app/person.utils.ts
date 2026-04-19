@@ -1,9 +1,13 @@
-const showName = (name: string, index: number) => {
+const showName = (name: string, index: number): string => {
   // very heavy computation
   return `${name} - ${index}`;
 };
 
-const isAllowed = (age: number, isFirst: boolean, activityAge: number) => {
+const isAllowed = (
+  age: number,
+  isFirst: boolean,
+  activityAge: number,
+): string => {
   if (isFirst) {
     return 'always allowed';
   } else {

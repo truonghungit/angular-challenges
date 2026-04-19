@@ -1,20 +1,29 @@
 import { Component } from '@angular/core';
+import { PersonUtilFunctionPipe } from './person-utils.pipe';
 import { PersonUtils } from './person.utils';
 
 @Component({
   selector: 'app-root',
+  imports: [PersonUtilFunctionPipe],
   template: `
     @for (activity of activities; track activity.name) {
-      {{ activity.name }} :
-      @for (
-        person of persons;
-        track person.name;
-        let index = $index;
-        let isFirst = $first
-      ) {
-        {{ showName(person.name, index) }}
-        {{ isAllowed(person.age, isFirst, activity.minimumAge) }}
-      }
+      <div>
+        {{ activity.name }} :
+        @for (
+          person of persons;
+          track person.name;
+          let index = $index;
+          let isFirst = $first
+        ) {
+          <div>
+            {{ person.name | personUtil: 'showName' : index }}
+            {{
+              person.age
+                | personUtil: 'isAllowed' : isFirst : activity.minimumAge
+            }}
+          </div>
+        }
+      </div>
     }
   `,
 })
